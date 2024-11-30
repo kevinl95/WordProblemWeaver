@@ -31,6 +31,33 @@
 </template>
 
 <script>
+import * as mathgenerator from 'mathgenerator';
+
+function randint(min, max) {
+  // Ensure min and max are integers
+  min = Math.ceil(min);
+  max = Math.floor(max);
+
+  // Generate a random integer between min and max (inclusive)
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function randomchoice(option1, option2) {
+  // Use Math.random() to pick randomly between 0 or 1
+  return Math.random() < 0.5 ? option1 : option2;
+}
+
+
+function division(max_a=25, max_b=25) {
+    const a = randint(1, max_a);
+    const b = randint(1, max_b);
+
+    const divisor = a * b;
+    const dividend = randomchoice(a, b);
+    const quotient = Math.floor(divisor / dividend);
+
+    return [`$${divisor}}\\div${dividend}=$`, `$${quotient}$`];
+}
 
 export default {
   data() {
@@ -56,32 +83,58 @@ export default {
         "Percentage Difference",
         "Percentage Error",
         "Power of Powers",
-        "Square",
-        "Simplify Square Root",
-        "Basic Algebra",
-        "Combine Like Terms",
-        "Compound Interest",
-        "Distance Between Two Points",
-        "Factoring"
+        "Square"
       ]
     };
   },
   methods: {
     generateAssignment() {
       if (this.selectedProblemTypes.length === 0) {
-        alert("Please select at least one problem type.");
+        alert('Please select at least one problem type.');
         return;
       }
+
       if (this.problemCount < 1) {
-        alert("Please enter a valid number of problems.");
+        alert('Please enter a valid number of problems.');
         return;
       }
-      console.log("Generating assignment with:", {
-        problemTypes: this.selectedProblemTypes,
-        problemCount: this.problemCount
-      });
-      // Logic to generate the assignment will go here
-    }
+
+      // Prepare to generate problems
+      const problems = [];
+      const totalProblems = this.problemCount;
+      const selectedTypes = this.selectedProblemTypes;
+
+      for (let i = 0; i < totalProblems; i++) {
+        // Randomly pick a problem type
+        const randomIndex = Math.floor(Math.random() * selectedTypes.length);
+        const selectedType = selectedTypes[randomIndex];
+        console.log(selectedType)
+        // Convert the checkbox label to function name
+        const functionName = selectedType.toLowerCase().replace(/ /g, '_');
+
+        // Check if the function exists in mathgenerator
+        if (mathgenerator[functionName]) {
+          console.log(functionName)
+          let problem = null;
+          if (functionName === "division") {
+            console.log("In here")
+            problem = division();
+          } else {
+            problem = mathgenerator[functionName]();
+          }
+          problems.push(problem);
+        } else {
+          console.warn(`Function ${functionName} not found in mathgenerator`);
+        }
+      }
+
+      // Display the generated problems (replace this with actual usage in your app)
+      console.log('Generated Problems:', problems);
+      alert('Assignment generated successfully! Check the console for problems.');
+
+      // TODO: Replace with code to display or save the problems in your app
+    },
+
   }
 };
 </script>
