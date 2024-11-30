@@ -5,6 +5,7 @@
     </div>
     <nav class="nav">
       <router-link to="/">Home</router-link>
+      <router-link to="/student">Access Assignment</router-link>
       <router-link to="/generate">Generate Assignment</router-link>
       <router-link to="/about">About</router-link>
     </nav>
