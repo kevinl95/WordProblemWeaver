@@ -14,6 +14,10 @@
           View the project on GitHub
         </a>
       </p>
+      <h3>AI Content Disclosure</h3>
+      <p>
+        The content displayed in this app includes AI-generated graphics and text. The role of AI in creating these visuals and content has been clearly disclosed to ensure transparency and clarity for users.
+      </p>
       <h3>About the Graphics</h3>
       <p>
         The student and teacher illustrations used in this app were created with the help of Canva's AI tools. All AI-generated content has been reviewed and refined to ensure quality and relevance to the project.
