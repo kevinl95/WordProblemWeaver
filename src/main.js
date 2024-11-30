@@ -1,5 +1,10 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
+import BalmUI from 'balm-ui'; // Official Google Material Components
+import 'balm-ui-css'; // BalmUI styles
 
-createApp(App).use(router).mount("#app");
+const app = createApp(App);
+
+app.use(BalmUI);
+app.use(router).mount("#app");
