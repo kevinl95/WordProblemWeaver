@@ -30,8 +30,13 @@ export default {
   name: 'Home',
   methods: {
     selectRole(role) {
-      // This is where you'd handle role selection
-      console.log(`Selected role: ${role}`);
+      if (role === 'teacher') {
+        // Redirect to the teacher page
+        this.$router.push({ name: 'TeacherPage' });
+      } else if (role === 'student') {
+        // Redirect to the student page
+        this.$router.push({ name: 'StudentPage' });
+      }
     }
   }
 };
