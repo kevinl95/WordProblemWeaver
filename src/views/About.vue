@@ -14,6 +14,13 @@
           View the project on GitHub
         </a>
       </p>
+      <h3>About the Graphics</h3>
+      <p>
+        The student and teacher illustrations used in this app were created with the help of Canva's AI tools. All AI-generated content has been reviewed and refined to ensure quality and relevance to the project.
+      </p>
+      <p>
+        <b>Attribution</b>: These graphics were generated with the assistance of Canva's AI tools and are used with permission.
+      </p>
     </div>
   </div>
 </template>
