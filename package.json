@@ -13,9 +13,9 @@
     "balm-ui": "^10.31.0",
     "lz-string": "^1.5.0",
     "mathgenerator": "^1.4.0",
+    "qrcode-reader-vue3": "^3.1.2",
     "qrcode-vue3": "^1.7.1",
     "vue": "^3.5.12",
-    "vue-qrcode-reader": "^5.5.11",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {

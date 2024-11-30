@@ -11,6 +11,7 @@
     </nav>
     <ui-dialog v-model="dialogVisible" persistent>
       <ui-card tabindex="-1">
+        <ui-dialog-title>Incompatible Browser</ui-dialog-title>
         <ui-card-content>
             It seems your browser doesn't support built-in AI with Gemini Nano. Please re-open this page in the latest version of Google Chrome or update your browser.
         </ui-card-content>
