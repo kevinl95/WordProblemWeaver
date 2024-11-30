@@ -40,19 +40,18 @@ Make sure you have **Node.js** installed. You can download it from [nodejs.org](
 ### Development
 
 To run the project locally in development mode, use:
-
-   ```bash
-    npm run dev
-   ```
+```bash
+npm run dev
+```
 This will start a local development server and open the app in your browser at a localhost address printed to the console. Any changes you make to the code will automatically reload the page.
 
 ### Building for Production
 
 To build the app for production, use:
 
-    ```bash
-    npm run build
-    ```
+```bash
+npm run build
+```
 
 This will generate optimized static files in the dist/ directory.
 
@@ -60,17 +59,17 @@ This will generate optimized static files in the dist/ directory.
 
 To preview the production build locally, run:
 
-    ```bash
-    npm run preview
-    ```
+```bash
+npm run preview
+```
 
 ### Generate PWA Assets
 
 To regenerate PWA assets (e.g., icons and splash screens), run:
 
-    ```bash
-    npm run generate-pwa-assets
-    ```
+```bash
+npm run generate-pwa-assets
+```
 
 ## AI Content Disclosure
 
