@@ -7,7 +7,7 @@
         <ui-form-field>
           <label class="required">Select Problem Types: </label>
           <ui-form-field v-for="problem in problemTypes" :key="problem">
-            <ui-checkbox :value="problem" :input-id="problem"></ui-checkbox>
+            <ui-checkbox :value="problem" :input-id="problem" v-model="selectedProblemTypes"></ui-checkbox>
             <label :for="problem">{{ problem }}</label>
           </ui-form-field>
         </ui-form-field>
