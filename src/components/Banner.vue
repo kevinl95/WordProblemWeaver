@@ -15,7 +15,7 @@
             It seems your browser doesn't support built-in AI with Gemini Nano. Please re-open this page in the latest version of Google Chrome or update your browser.
         </ui-card-content>
         <ui-card-actions>
-          <ui-button color="primary" @click="dialogVisible = false">Close</ui-button>
+          <ui-button color="info" @click="dialogVisible = false">Close</ui-button>
         </ui-card-actions>
       </ui-card>
     </ui-dialog>

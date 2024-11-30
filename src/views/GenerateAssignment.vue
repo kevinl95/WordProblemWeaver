@@ -17,7 +17,7 @@
             v-model="problemCount"
             type="number"
             min="1"
-            max="100"
+            max="50"
             outlined
             placeholder="Enter number of problems"
           ></ui-textfield>
@@ -27,11 +27,67 @@
         </ui-button>
       </ui-form>
     </div>
+    <!-- QR Code Dialog -->
+    <ui-dialog v-model="isDialogVisible" persistent>
+      <ui-dialog-title>Assignment QR Code</ui-dialog-title>
+      <ui-dialog-content>
+        <div style="margin: 20px">
+          <QRCodeVue3
+            :value="compressedUrl"
+            :key="compressedUrl"
+            :width="400"
+            :height="400"
+            :qr-options="{
+              errorCorrectionLevel: 'H'
+            }"
+            image="pwa-icon.svg"
+            :download="true"
+            :image-options="{ hideBackgroundDots: true, imageSize: 0.4, margin: 10 }"
+            :corners-square-options="{ type: 'dot', color: '#34495E' }"
+            :corners-dot-options="{
+              type: undefined,
+              color: '#41B883'
+            }"
+            :dots-options="{
+              type: 'dots',
+              color: '#41B883',
+              gradient: {
+                type: 'linear',
+                rotation: 0,
+                colorStops: [
+                  { offset: 0, color: '#41B883' },
+                  { offset: 1, color: '#7e9eff' }
+                ]
+              }
+            }"
+          ></QRCodeVue3>
+          </div>
+          <div>
+          <p>Share this QR code to load the assignment!</p>
+          <!-- Display the compressed URL as a copyable link -->
+          <ui-form-field>
+            <label for="compressed-url">Copyable Link:</label>
+            <input
+              id="compressed-url"
+              v-model="compressedUrl"
+              readonly
+              style="width: 100%; padding: 10px; font-family: monospace; border: 1px solid #ddd;"
+            />
+            <ui-button :style="{ backgroundColor: '#7e9eff', color: 'white' }" @click="copyToClipboard" raised>Copy Link</ui-button>
+          </ui-form-field>
+        </div>
+      </ui-dialog-content>
+      <ui-dialog-actions>
+        <ui-button :style="{ backgroundColor: '#7e9eff', color: 'white' }" @click="isDialogVisible = false">Close</ui-button>
+      </ui-dialog-actions>
+    </ui-dialog>
   </div>
 </template>
 
 <script>
 import * as mathgenerator from 'mathgenerator';
+import { compressToEncodedURIComponent } from "lz-string";
+import QRCodeVue3 from 'qrcode-vue3'
 
 function randint(min, max) {
   // Ensure min and max are integers
@@ -60,6 +116,9 @@ function division(max_a=25, max_b=25) {
 }
 
 export default {
+  components: {
+    QRCodeVue3,
+  },
   data() {
     return {
       selectedProblemTypes: [], // Array to store selected problem types
@@ -84,7 +143,10 @@ export default {
         "Percentage Error",
         "Power of Powers",
         "Square"
-      ]
+      ],
+      isDialogVisible: false, // Dialog visibility
+      compressedUrl: "", // Compressed URL for QR code
+      qrKey: 0, // Key to force re-render of QR code
     };
   },
   methods: {
@@ -99,6 +161,11 @@ export default {
         return;
       }
 
+      if (this.problemCount > 50) {
+        alert('Please choose a smaller number of problems.');
+        return;
+      }
+
       // Prepare to generate problems
       const problems = [];
       const totalProblems = this.problemCount;
@@ -108,16 +175,13 @@ export default {
         // Randomly pick a problem type
         const randomIndex = Math.floor(Math.random() * selectedTypes.length);
         const selectedType = selectedTypes[randomIndex];
-        console.log(selectedType)
         // Convert the checkbox label to function name
         const functionName = selectedType.toLowerCase().replace(/ /g, '_');
 
         // Check if the function exists in mathgenerator
         if (mathgenerator[functionName]) {
-          console.log(functionName)
           let problem = null;
           if (functionName === "division") {
-            console.log("In here")
             problem = division();
           } else {
             problem = mathgenerator[functionName]();
@@ -128,13 +192,28 @@ export default {
         }
       }
 
-      // Display the generated problems (replace this with actual usage in your app)
-      console.log('Generated Problems:', problems);
-      alert('Assignment generated successfully! Check the console for problems.');
+      // Compress JSON string
+      const compressedJson = compressToEncodedURIComponent(JSON.stringify(problems));
+      this.compressedUrl = `https://wordproblemweaver.com/student/?data=${compressedJson}`;
 
-      // TODO: Replace with code to display or save the problems in your app
+      // Show the dialog with the QR code
+      this.isDialogVisible = true;
+
+      // Change qrKey to force re-render of QR code
+      this.qrKey++;
     },
-
+    closeDialog() {
+      this.isDialogVisible = false;
+    },
+    copyToClipboard() {
+      // Create a temporary input element to copy the text
+      const textArea = document.createElement("textarea");
+      textArea.value = this.compressedUrl;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+    },
   }
 };
 </script>
@@ -163,5 +242,9 @@ ui-container {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 90%;
+}
+ui-dialog {
+  width: 75%;
+  margin: auto;
 }
 </style>
