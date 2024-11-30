@@ -1,7 +1,9 @@
 <template>
   <header class="banner">
     <div class="logo">
-      <img src="@/assets/logo.svg" alt="Word Problem Weaver Logo" class="logo-img" />
+      <router-link to="/">
+        <img src="@/assets/logo.svg" alt="Word Problem Weaver Logo" class="logo-img" />
+      </router-link>
     </div>
     <nav class="nav">
       <router-link to="/">Home</router-link>

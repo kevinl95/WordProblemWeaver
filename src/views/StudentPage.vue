@@ -4,25 +4,11 @@
       <h1>Student Assignment</h1>
       <p>Scan the QR code or enter a short code to access your assignment.</p>
 
-      <!-- QR Code Scanner (Placeholder for now) -->
       <div class="qr-scanner">
         <h3>Scan QR Code</h3>
         <button @click="startScanning">Start Scanning</button>
         <!-- Placeholder: Display scanned QR code data here -->
         <p v-if="scannedQRCode">Scanned Code: {{ scannedQRCode }}</p>
-      </div>
-
-      <!-- OR Section: Short Code Input -->
-      <div class="short-code-input">
-        <h3>Enter Assignment Code</h3>
-        <input
-          v-model="shortCode"
-          type="text"
-          placeholder="Enter assignment code"
-          @keyup.enter="loadAssignment"
-        />
-        <button @click="loadAssignment">Load Assignment</button>
-        <p v-if="assignment">Assignment: {{ assignment }}</p>
       </div>
     </div>
   </div>
