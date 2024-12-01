@@ -70,7 +70,7 @@ export default {
       if (valid) {
         console.log("Valid!");
         console.log(data)
-        this.window.location = data; // Redirect the user to the URL
+        window.location = data; // Redirect the user to the URL
       } else {
         alert("Invalid QR code! Try again or ask your teacher for a new QR code.");
       }
