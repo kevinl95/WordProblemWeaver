@@ -11,7 +11,7 @@
             <label :id="'problem-' + index" :for="'problem-' + index">{{index + 1}}. Loading...</label> <!-- Dynamically show label -->            <br></br>
             <ui-textfield
               placeholder="Enter your answer"
-              v-model="userAnswers[index]"
+              v-model="state.userAnswers[index]"
               :id="'input-' + index"
               outlined
             />
@@ -108,25 +108,30 @@ export default {
   methods: {
      // Function to handle form submission and check answers
      handleSubmit() {
-      let allCorrect = true;
+        let allCorrect = true;
 
-      state.decodedData.forEach((problemPair) => {
-        const [problem, correctAnswer] = problemPair;
-        const userAnswer = state.userAnswers[index];
-        if (userAnswer !== correctAnswer) {
-          problemPair[3] = true; // Mark as incorrect
-          allCorrect = false;
+        this.state.decodedData.forEach((problemPair, index) => {
+            let [problem, correctAnswer] = problemPair;
+            const userAnswer = this.state.userAnswers[index]; // Access user answers correctly
+            correctAnswer = correctAnswer.replace(/\$/g, '');
+            console.log(problem);
+            console.log(userAnswer)
+            console.log(correctAnswer)
+            if (userAnswer !== correctAnswer) {
+                problemPair[3] = true; // Mark as incorrect
+                allCorrect = false;
+            } else {
+                problemPair[3] = false; // Mark as correct
+            }
+        });
+
+        if (allCorrect) {
+            alert("All answers are correct!");
         } else {
-          problemPair[3] = false; // Mark as correct
+            alert("Some answers are wrong. Please try again.");
         }
-      });
-
-      if (allCorrect) {
-        alert("All answers are correct!");
-      } else {
-        alert("Some answers are wrong. Please try again.");
-      }
     },
+
 
     // Function to check if the answer is wrong
     isWrong(problemPair) {
@@ -142,6 +147,7 @@ export default {
     const state = reactive({
       errorMessage: null,
       decodedData: null,
+      userAnswers: [],
     });
 
     onMounted(() => {
@@ -151,7 +157,6 @@ export default {
           state.errorMessage = result.error; // Set error message if decoding fails
         } else {
           state.decodedData = result; // Set decoded data
-          state.userAnswers = Array(result.length).fill(''); // Initialize user answers array
           generateWordProblemForAll(result); // Generate word problems for all problems on mount
         }
       } catch (error) {
