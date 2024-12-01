@@ -28,7 +28,7 @@ import { reactive, toRefs } from 'vue';
 
 function validateWordProblemWeaverUrl(url) {
   // Define the expected base URL
-  const baseUrl = "https://wordproblemweaver.com/student/?data=";
+  const baseUrl = "https://wordproblemweaver.com/student?data=";
 
   // Check if the URL starts with the base URL
   if (!url.startsWith(baseUrl)) {
@@ -80,8 +80,12 @@ export default {
     })
     function onDecode(data) {
       state.data = data
-      if (validateWordProblemWeaverUrl(url)) {
-        window.location.href = data; // Redirect the user to the URL
+      console.log("Here!");
+      const valid = validateWordProblemWeaverUrl(data);
+      if (valid) {
+        console.log("Valid!");
+        console.log(data)
+        window.location.replace = data; // Redirect the user to the URL
       } else {
         alert("Invalid QR code! Try again or ask your teacher for a new QR code.");
       }

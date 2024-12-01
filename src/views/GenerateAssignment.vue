@@ -186,7 +186,7 @@ export default {
 
       // Compress JSON string
       const compressedJson = compressToEncodedURIComponent(JSON.stringify(problems));
-      this.compressedUrl = `https://wordproblemweaver.com/student/?data=${compressedJson}`;
+      this.compressedUrl = `https://wordproblemweaver.com/student?data=${compressedJson}`;
 
       // Show the dialog with the QR code
       this.isDialogVisible = true;
