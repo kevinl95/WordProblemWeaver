@@ -47,7 +47,7 @@ async function generateWordProblem(problem) {
     });
 
     const result = await writer.write(
-        'A creative and fun word problem with a hint that does not give away the answer based on the following mathematical formula "' + problemString + '". The word problem should not change the type of the problem or the quantities involved. Do not require units on answers.'
+        'A creative and fun word problem with a hint that does not give away the solution based on the following mathematical formula "' + problemString + '". The word problem should not change the type of the problem or the quantities involved. Do not require units on answers and do not create problems that require the use of units like inches, feet etc. to solve the problem.'
     );
     return result
 }
