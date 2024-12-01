@@ -46,7 +46,18 @@ async function generateWordProblem(problem, problemType) {
         format: "plain-text"
     });
     const result = await writer.write(
-        'A creative and fun ' + problemType + ' word problem with a hint that does not give away the solution based on the following mathematical formula "' + problemString + '". The word problem should not change the type of the problem or the quantities involved. Do not require units on answers and do not create problems that require the use of units like inches, feet etc. to solve the problem.'
+        `Write a creative and fun ${problemType} word problem that is accurate and directly corresponds to the mathematical formula: "${problemString}".
+        
+        - The problem must use the quantities and operation in the formula exactly as given.
+        - Do not introduce new quantities or change the mathematical operation (e.g., addition remains addition).
+        - The solution to the word problem must match the result of the formula.
+        - Avoid requiring units like inches, feet, etc., or introducing unrelated context.
+        - Provide a hint when possible that does not give away the solution.
+        - Example:
+        Formula: "10+5="
+        Word Problem: "Lisa has 10 apples, and her friend gives her 5 more. How many apples does Lisa have in total?"
+
+        Now, generate the word problem for this formula: "${problemString}".`
     );
     return result
 }
@@ -114,9 +125,6 @@ export default {
             let [problem, correctAnswer] = problemPair;
             const userAnswer = this.state.userAnswers[index]; // Access user answers correctly
             correctAnswer = correctAnswer.replace(/\$/g, '');
-            console.log(problem);
-            console.log(userAnswer)
-            console.log(correctAnswer)
             if (userAnswer !== correctAnswer) {
                 problemPair[3] = true; // Mark as incorrect
                 allCorrect = false;
