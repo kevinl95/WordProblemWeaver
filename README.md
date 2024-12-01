@@ -1,3 +1,5 @@
+![A blue circle with the text Word Problem Weaver around the edges, circling red, blue, green, and yellow squares containing mathematic symbols](public/pwa-192x192.png)
+
 # Word Problem Weaver
 
 **Word Problem Weaver** is an offline-ready Progressive Web App (PWA) designed to help teachers generate customizable math problem sets. It uses AI to create word problems and graphics, making it a valuable tool for classrooms with unreliable internet. This app allows students to access assignments either by scanning QR codes or entering short codes.
