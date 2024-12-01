@@ -178,6 +178,7 @@ export default {
           } else {
             problem = mathgenerator[functionName]();
           }
+          problem.push(selectedType);
           problems.push(problem);
         } else {
           console.warn(`Function ${functionName} not found in mathgenerator`);

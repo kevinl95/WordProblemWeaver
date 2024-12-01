@@ -37,7 +37,7 @@
 import LZString from "lz-string";
 import { reactive, onMounted } from "vue";
 
-async function generateWordProblem(problem) {
+async function generateWordProblem(problem, problemType) {
     const problemString = problem.replace(/\$/g, '');
     
     const writer = await ai.writer.create({
@@ -45,9 +45,8 @@ async function generateWordProblem(problem) {
         length: "short",
         format: "plain-text"
     });
-
     const result = await writer.write(
-        'A creative and fun word problem with a hint that does not give away the solution based on the following mathematical formula "' + problemString + '". The word problem should not change the type of the problem or the quantities involved. Do not require units on answers and do not create problems that require the use of units like inches, feet etc. to solve the problem.'
+        'A creative and fun ' + problemType + ' word problem with a hint that does not give away the solution based on the following mathematical formula "' + problemString + '". The word problem should not change the type of the problem or the quantities involved. Do not require units on answers and do not create problems that require the use of units like inches, feet etc. to solve the problem.'
     );
     return result
 }
@@ -56,7 +55,7 @@ async function generateWordProblem(problem) {
 async function generateWordProblemForAll(decodedData) {
     for (let i = 0; i < decodedData.length; i++) {
         const problemPair = decodedData[i];
-        const wordProblem = await generateWordProblem(problemPair[0]); // Generate word problem based on formula
+        const wordProblem = await generateWordProblem(problemPair[0], problemPair[2]); // Generate word problem based on formula
         const label = document.getElementById('problem-' + i);
         const newIndex = i + 1;
         label.textContent = newIndex.toString() + ". " + wordProblem;
@@ -115,10 +114,10 @@ export default {
         const [problem, correctAnswer] = problemPair;
         const userAnswer = state.userAnswers[index];
         if (userAnswer !== correctAnswer) {
-          problemPair[2] = true; // Mark as incorrect
+          problemPair[3] = true; // Mark as incorrect
           allCorrect = false;
         } else {
-          problemPair[2] = false; // Mark as correct
+          problemPair[3] = false; // Mark as correct
         }
       });
 
@@ -131,7 +130,7 @@ export default {
 
     // Function to check if the answer is wrong
     isWrong(problemPair) {
-      return problemPair[2] === true; // 2 is where we store whether the answer is wrong
+      return problemPair[3] === true; // 3 is where we store whether the answer is wrong
     },
 
     // Function to print the page
