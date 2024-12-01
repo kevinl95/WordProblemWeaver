@@ -39,30 +39,55 @@ import { reactive, onMounted } from "vue";
 
 async function generateWordProblem(problem, problemType) {
     const problemString = problem.replace(/\$/g, '');
-    
-    const writer = await ai.writer.create({
-        tone: "casual",
-        length: "medium",
-        format: "plain-text"
-    });
-    const result = await writer.write(
-        `You are helping a student learn mathematics.
-        Write a creative and fun ${problemType} word problem in English that is accurate and directly corresponds to the mathematical formula: "${problemString}".
-        
-        - The problem must use the quantities and operation in the formula exactly as given.
-        - Do not introduce new quantities or change the mathematical operation (e.g., addition remains addition).
-        - The solution to the word problem must match the result of the formula.
-        - Avoid requiring units like inches, feet, etc., or introducing unrelated context.
-        - Provide a hint when possible that does not give away the solution.
-        - Do not surround outputs in quotes.
-        - Example:
-        Formula: "10+5="
-        Word Problem: "Lisa has 10 apples, and her friend gives her 5 more. How many apples does Lisa have in total?"
+    const maxRetries = 3;
+    let attempt = 0;
 
-        Now, generate the word problem for this formula: "${problemString}".`
+    while (attempt < maxRetries) {
+        try {
+            const writer = await ai.writer.create({
+                tone: "casual",
+                length: "medium",
+                format: "plain-text",
+            });
+
+            const result = await writer.write(
+                `You are helping a student learn mathematics.
+                Write a creative and fun ${problemType} word problem in English that is accurate and directly corresponds to the mathematical formula: "${problemString}".
+                
+                - The problem must use the quantities and operation in the formula exactly as given.
+                - Do not introduce new quantities or change the mathematical operation (e.g., addition remains addition).
+                - The solution to the word problem must match the result of the formula.
+                - Avoid requiring units like inches, feet, etc., or introducing unrelated context.
+                - Provide a hint when possible that does not give away the solution.
+                - Do not surround outputs in quotes.
+                - Example:
+                Formula: "10+5="
+                Word Problem: "Lisa has 10 apples, and her friend gives her 5 more. How many apples does Lisa have in total?"
+
+                Now, generate the word problem for this formula: "${problemString}".`
+            );
+            return result;
+        } catch (error) {
+            if (error.name === "InvalidStateError") {
+                console.warn(
+                    `Attempt ${attempt + 1} failed due to InvalidStateError. Retrying...`
+                );
+                attempt++;
+                // Optional: Add a small delay before retrying
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+            } else {
+                // Re-throw any other errors
+                throw error;
+            }
+        }
+    }
+
+    // If we exhausted all retries, throw an error
+    throw new Error(
+        `Failed to generate word problem after ${maxRetries} attempts due to InvalidStateError.`
     );
-    return result
 }
+
 
 // Async function to update the label for each problem with a generated word problem
 async function generateWordProblemForAll(decodedData) {
