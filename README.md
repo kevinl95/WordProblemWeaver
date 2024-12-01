@@ -2,6 +2,8 @@
 
 # Word Problem Weaver
 
+[![CodeQL Advanced](https://github.com/kevinl95/WordProblemWeaver/actions/workflows/codeql.yml/badge.svg)](https://github.com/kevinl95/WordProblemWeaver/actions/workflows/codeql.yml)
+
 **Word Problem Weaver** is an offline-ready Progressive Web App (PWA) designed to help teachers generate customizable math problem sets. It uses [Google Chrome's Built-in AI](https://developer.chrome.com/docs/ai/built-in-apis) to create word problems and level-appropriate hints, making it a valuable tool for classrooms practicing mathematics and that may have unreliable internet. One of the biggest classroom challenges I have learned from volunteering in schools is what to do if the internet goes down or is running too slow and all of your assignments are conducted through apps and websites. This app was designed to provide a high-quality AI experience, accelerate assignment creation, and also work entirely offline if needed. This app allows students to access assignments either by scanning QR codes or by entering a custom link produced when the assignment is created.
 
 Learning never stops because of bad internet when you use [Word Problem Weaver](https://www.wordproblemweaver.com)!
