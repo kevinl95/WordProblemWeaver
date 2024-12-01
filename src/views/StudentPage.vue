@@ -17,9 +17,6 @@
         or upload your QR code
         </div>
         <qr-capture @decode="onDecode" class="mb"></qr-capture>
-        <div class="result">
-        Result: {{data}}
-        </div>
       </div>
     </div>
   </div>
@@ -28,6 +25,32 @@
 <script>
 import { QrCapture, QrStream } from "vue3-qr-reader";
 import { reactive, toRefs } from 'vue';
+
+function validateWordProblemWeaverUrl(url) {
+  // Define the expected base URL
+  const baseUrl = "https://wordproblemweaver.com/student/?data=";
+
+  // Check if the URL starts with the base URL
+  if (!url.startsWith(baseUrl)) {
+    return false; // The URL doesn't match the expected base URL
+  }
+
+  // Extract the 'data' query parameter from the URL
+  const urlParams = new URLSearchParams(new URL(url).search);
+  const dataParam = urlParams.get('data');
+
+  // Check if the 'data' parameter exists and is valid (Base64 encoded or LZ string)
+  try {
+    // You can add further validation here for the 'data' if needed (e.g., ensure it's a valid Base64 or LZ-string).
+    if (!dataParam) {
+      return false; // If there's no 'data' parameter
+    }
+    return true; // The URL is valid
+  } catch (error) {
+    return false; // Invalid URL structure or failed JSON parsing
+  }
+}
+
 export default {
   data() {
     return {
@@ -57,6 +80,11 @@ export default {
     })
     function onDecode(data) {
       state.data = data
+      if (validateWordProblemWeaverUrl(url)) {
+        window.location.href = data; // Redirect the user to the URL
+      } else {
+        alert("Invalid QR code! Try again or ask your teacher for a new QR code.");
+      }
     }
     return {
       ...toRefs(state),
