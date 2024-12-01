@@ -42,11 +42,12 @@ async function generateWordProblem(problem, problemType) {
     
     const writer = await ai.writer.create({
         tone: "casual",
-        length: "short",
+        length: "medium",
         format: "plain-text"
     });
     const result = await writer.write(
-        `Write a creative and fun ${problemType} word problem that is accurate and directly corresponds to the mathematical formula: "${problemString}".
+        `You are helping a student learn mathematics.
+        Write a creative and fun ${problemType} word problem in English that is accurate and directly corresponds to the mathematical formula: "${problemString}".
         
         - The problem must use the quantities and operation in the formula exactly as given.
         - Do not introduce new quantities or change the mathematical operation (e.g., addition remains addition).
