@@ -1,28 +1,51 @@
 <template>
-  <div class="assignment-container">
-    <div v-if="errorMessage" class="error-message">
-      <p>{{ errorMessage }}</p>
-    </div>
-
-    <div v-else>
-      <h2>Assignment</h2>
-      <p><strong>Problem Types:</strong> {{ decodedData.problemTypes.join(", ") }}</p>
-      <p><strong>Number of Problems:</strong> {{ decodedData.problemCount }}</p>
-
-      <div v-for="(problemType, index) in decodedData.problemTypes" :key="index">
-        <p><strong>{{ problemType }}:</strong></p>
-        <ul>
-          <!-- Here, you would render the problems based on the problem type -->
-          <li v-for="(problem, i) in generateProblems(problemType)" :key="i">{{ problem }}</li>
-        </ul>
+    <div>
+      <div v-if="state.errorMessage" class="error">
+        {{ state.errorMessage }}
+      </div>
+      <div v-else>
+        <h1>Assignment Details</h1>
+        <pre>{{ state.decodedData }}</pre>
       </div>
     </div>
-  </div>
-</template>
+  </template>
 
 <script>
 import LZString from "lz-string";
-import { ref, onMounted } from "vue";
+import { reactive, onMounted } from "vue";
+
+function decodeURL() {
+  try {
+    // Get the current URL
+    const currentUrl = window.location.href;
+
+    // Parse the URL and extract the path
+    const urlObject = new URL(currentUrl);
+    const pathSegments = urlObject.pathname.split("/");
+
+    // The last segment is the encoded data
+    const encodedData = pathSegments[pathSegments.length - 1];
+
+    if (!encodedData) {
+      throw new Error("No encoded data found in the URL.");
+    }
+
+    // Decode the base64-encoded, LZ-compressed data
+    const decodedJson = LZString.decompressFromEncodedURIComponent(encodedData);
+
+    if (!decodedJson) {
+      throw new Error("Failed to decompress the data.");
+    }
+
+    // Parse the JSON
+    const dataObject = JSON.parse(decodedJson);
+
+    return dataObject;
+  } catch (error) {
+    console.error("Error decoding URL:", error);
+    return { error: "Invalid or corrupted URL." };
+  }
+}
 
 export default {
   data() {
@@ -36,30 +59,33 @@ export default {
       // This function would generate random problems based on the problem type
       // You can replace it with the actual logic for generating problems.
       return Array.from({ length: 5 }, (_, i) => `${problemType} Problem #${i + 1}`);
-    },
-    decodeUrl() {
-      const encodedData = route.params.id;
+    }
+  },
+  setup() {
+    const state = reactive({
+      errorMessage: null,
+      decodedData: null,
+    });
 
-      if (!encodedData) {
-        this.errorMessage = "Invalid or missing data.";
-        return;
-      }
-
+    onMounted(() => {
       try {
-        const decodedJson = LZString.decompressFromEncodedURIComponent(encodedData);
-        if (decodedJson) {
-          this.decodedData = JSON.parse(decodedJson);
+        const result = decodeURL(); // Decodes the URL directly
+        if (result.error) {
+          state.errorMessage = result.error; // Set error message if decoding fails
         } else {
-          this.errorMessage = "Failed to decode assignment data.";
+          state.decodedData = result; // Set decoded data
         }
-      } catch (e) {
-        this.errorMessage = "Error parsing the assignment data.";
+      } catch (error) {
+        state.errorMessage = "An unexpected error occurred.";
+        console.error(error);
       }
-    },
+    });
+
+    return {
+      state,
+    };
   },
-  onMounted() {
-    this.decodeUrl();
-  },
+
 };
 </script>
 
