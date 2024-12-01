@@ -40,8 +40,8 @@ jobs:
     - name: Build project (optional for JavaScript/TypeScript)
       if: matrix.build-mode == 'manual'
       run: |
-        echo 'No build required for JavaScript or TypeScript projects.'
-        exit 0
+        npm install
+        npm run build
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
