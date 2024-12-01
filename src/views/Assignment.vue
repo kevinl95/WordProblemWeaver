@@ -53,6 +53,7 @@ async function generateWordProblem(problem, problemType) {
         - The solution to the word problem must match the result of the formula.
         - Avoid requiring units like inches, feet, etc., or introducing unrelated context.
         - Provide a hint when possible that does not give away the solution.
+        - Do not surround outputs in quotes.
         - Example:
         Formula: "10+5="
         Word Problem: "Lisa has 10 apples, and her friend gives her 5 more. How many apples does Lisa have in total?"
