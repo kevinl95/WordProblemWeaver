@@ -38,7 +38,6 @@ jobs:
         queries: +javascript-security-and-quality
 
     - name: Build project (optional for JavaScript/TypeScript)
-      uses: github/codeql-action/analyze@v3
       run: |
         npm install
         npm run build
