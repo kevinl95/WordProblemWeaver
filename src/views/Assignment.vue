@@ -1,11 +1,31 @@
 <template>
-    <div>
-      <div v-if="state.errorMessage" class="error">
-        {{ state.errorMessage }}
+    <div class="assignment-container">
+      <h2>Assignment</h2>
+      <div v-if="state.decodedData && state.decodedData.length > 0" class="assignment-card">
+        <ui-form type="|" @submit.prevent="handleSubmit">
+          <div v-for="(problemPair, index) in state.decodedData" :key="index" class="problem">
+            <label :for="'problem-' + index">{{index + 1}}. {{ problemPair[0] }} </label>
+            <br></br>
+            <ui-textfield
+              placeholder="Enter your answer"
+              v-model="userAnswers[index]"
+              :id="'problem-' + index"
+              outlined
+            />
+            <span v-if="isWrong(problemPair)" class="error">Wrong answer</span>
+          </div>
+          <ui-button raised :style="{ backgroundColor: '#7e9eff', color: 'white' }" type="submit">
+            Submit Assignment
+          </ui-button>
+        </ui-form>
+  
+        <!-- Print button -->
+        <ui-button raised :style="{ backgroundColor: '#4caf50', color: 'white' }" @click="printPage">
+          Print Assignment
+        </ui-button>
       </div>
       <div v-else>
-        <h1>Assignment Details</h1>
-        <pre>{{ state.decodedData }}</pre>
+        <p>Error: Invalid assignment data or link, please try again.</p>
       </div>
     </div>
   </template>
@@ -52,14 +72,44 @@ export default {
     return {
       decodedData: null,
       errorMessage: "",
+      userAnswers: [], // Store user's answers in an array
     };
   },
   methods: {
-    generateProblems(problemType) {
-      // This function would generate random problems based on the problem type
-      // You can replace it with the actual logic for generating problems.
-      return Array.from({ length: 5 }, (_, i) => `${problemType} Problem #${i + 1}`);
-    }
+     generateWordProblem(problem) {
+        console.log(problem)
+     },
+     // Function to handle form submission and check answers
+     handleSubmit() {
+      let allCorrect = true;
+
+      this.decodedData.forEach((problemPair) => {
+        const [problem, correctAnswer] = problemPair;
+        const userAnswer = this.userAnswers[index];
+        if (userAnswer !== correctAnswer) {
+          problemPair[2] = true; // Mark as incorrect
+          allCorrect = false;
+        } else {
+          problemPair[2] = false; // Mark as correct
+        }
+      });
+
+      if (allCorrect) {
+        alert("All answers are correct!");
+      } else {
+        alert("Some answers are wrong. Please try again.");
+      }
+    },
+
+    // Function to check if the answer is wrong
+    isWrong(problemPair) {
+      return problemPair[2] === true; // 2 is where we store whether the answer is wrong
+    },
+
+    // Function to print the page
+    printPage() {
+      window.print();
+    },
   },
   setup() {
     const state = reactive({
@@ -91,25 +141,24 @@ export default {
 
 <style scoped>
 .assignment-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px;
   background-color: #f4f4f4;
-  text-align: center;
+}
+.assignment-card {
+  background-color: #fff;
   padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-.error-message {
+.problem {
+  margin-bottom: 16px;
+}
+.error {
   color: red;
-  font-weight: bold;
-}
-
-h2 {
-  color: #7e9eff;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 4px;
 }
 </style>
