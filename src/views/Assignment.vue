@@ -38,8 +38,7 @@ export default {
       return Array.from({ length: 5 }, (_, i) => `${problemType} Problem #${i + 1}`);
     },
     decodeUrl() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const encodedData = urlParams.get("data");
+      const encodedData = route.params.id;
 
       if (!encodedData) {
         this.errorMessage = "Invalid or missing data.";

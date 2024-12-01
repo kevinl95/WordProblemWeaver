@@ -9,8 +9,8 @@ const routes = [
   { path: "/", component: Home, name: "Home" },
   { path: "/generate", component: GenerateAssignment, name: "TeacherPage" },
   { path: "/about", component: About },
-  { path: "/studentpage", component: StudentPage, name: "StudentPage"},
-  { path: "/student", component: Assignment, name: "Assignment"}
+  { path: "/scan", component: StudentPage, name: "StudentPage"},
+  { path: "/assignment/:data", component: Assignment, name: "Assignment", props: true}
 ];
 
 const router = createRouter({
