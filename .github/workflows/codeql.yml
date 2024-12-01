@@ -38,7 +38,7 @@ jobs:
         queries: +javascript-security-and-quality
 
     - name: Build project (optional for JavaScript/TypeScript)
-      if: matrix.build-mode == 'manual'
+      uses: github/codeql-action/analyze@v3
       run: |
         npm install
         npm run build
