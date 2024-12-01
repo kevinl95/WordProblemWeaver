@@ -43,22 +43,14 @@
             image="pwa-icon.svg"
             :download="true"
             :image-options="{ hideBackgroundDots: true, imageSize: 0.4, margin: 10 }"
-            :corners-square-options="{ type: 'dot', color: '#34495E' }"
+            :corners-square-options="{ type: 'square' }"
             :corners-dot-options="{
               type: undefined,
-              color: '#41B883'
+              color: ' #1200e2 '
             }"
             :dots-options="{
-              type: 'dots',
-              color: '#41B883',
-              gradient: {
-                type: 'linear',
-                rotation: 0,
-                colorStops: [
-                  { offset: 0, color: '#41B883' },
-                  { offset: 1, color: '#7e9eff' }
-                ]
-              }
+              type: 'square',
+              color: '#1200e2',
             }"
           ></QRCodeVue3>
           </div>
@@ -73,7 +65,7 @@
               readonly
               style="width: 100%; padding: 10px; font-family: monospace; border: 1px solid #ddd;"
             />
-            <ui-button :style="{ backgroundColor: '#7e9eff', color: 'white' }" @click="copyToClipboard" raised>Copy Link</ui-button>
+            <ui-button :style="{ backgroundColor: '#7e9eff', color: 'white' }" @click="copyToClipboard" raised>Copy</ui-button>
           </ui-form-field>
         </div>
       </ui-dialog-content>

@@ -4,17 +4,30 @@
       <h1>Student Assignment</h1>
       <p>Scan the QR code or enter a short code to access your assignment.</p>
 
-      <div class="qr-scanner">
-        <h3>Scan QR Code</h3>
-        <button @click="startScanning">Start Scanning</button>
-        <!-- Placeholder: Display scanned QR code data here -->
-        <p v-if="scannedQRCode">Scanned Code: {{ scannedQRCode }}</p>
+      <div>
+        <div class="mb">
+        QR Code Scanner
+        </div>
+        <div class="center stream">
+        <qr-stream @decode="onDecode" class="mb">
+            <div style="color: red;" class="frame"></div>
+        </qr-stream>
+        </div>
+        <div class="mb">
+        or upload your QR code
+        </div>
+        <qr-capture @decode="onDecode" class="mb"></qr-capture>
+        <div class="result">
+        Result: {{data}}
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { QrCapture, QrStream } from "vue3-qr-reader";
+import { reactive, toRefs } from 'vue';
 export default {
   data() {
     return {
@@ -36,6 +49,18 @@ export default {
         // For now, we simply display the short code as the assignment.
         this.assignment = `Assignment for code: ${this.shortCode}`;
       }
+    }
+  },
+  setup() {
+    const state = reactive({
+      data: null
+    })
+    function onDecode(data) {
+      state.data = data
+    }
+    return {
+      ...toRefs(state),
+      onDecode
     }
   }
 };
@@ -104,5 +129,24 @@ p {
   font-size: 1rem;
   color: #555;
   margin-top: 1rem;
+}
+
+.stream {
+  max-height: 500px;
+  max-width: 500px;
+  margin: auto;
+}
+.frame {
+  border-style: solid;
+  border-width: 2px;
+  border-color: red;
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  margin: auto;
 }
 </style>
