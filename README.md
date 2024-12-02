@@ -8,12 +8,17 @@
 
 Learning never stops because of bad internet when you use [Word Problem Weaver](https://www.wordproblemweaver.com)!
 
+![A web form with five word problems demonstrating sample output](screenshots/sample.png)
+
 ## Features
 
 - Generate customizable math problem sets.
+![A web form with checkboxes for various math problems and a 'Generate Assignment' button](screenshots/assignmentgeneration.png)
 - AI-generated word problems and level-appropriate hints using Chrome's Built-in AI
 - Offline-ready functionality using PWA technology.
 - QR code and links for easy sharing and access to assignments.
+![A QR code and a copyable link for sharing an assignment](screenshots/sharepage.png)
+![A webpage with the output of a webcam where someone is holding up a printout with a QR code printed on it.](screenshots/qrscan.png)
 
 ## Technologies Used
 
@@ -24,7 +29,13 @@ Learning never stops because of bad internet when you use [Word Problem Weaver](
 
 ## Getting Started
 
-### Prerequisites
+### Using Word Problem Weaver
+
+[Word Problem Weaver is live on the internet today](https://www.wordproblemweaver.com). You must use [Google Chrome with the Writer API enabled](https://developer.chrome.com/docs/ai/built-in-apis).
+
+![Screenshot of the homepage for Word Problem Waver](screenshots/home.png)
+
+### Development Prerequisites
 
 Make sure you have **Node.js** installed. You can download it from [nodejs.org](https://nodejs.org/).
 
