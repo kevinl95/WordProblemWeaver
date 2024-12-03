@@ -24,14 +24,12 @@
 
 <script>
 import { QrCapture, QrStream } from "vue3-qr-reader";
-import { reactive, toRefs } from 'vue';
+import { reactive, toRefs } from "vue";
 
 function validateWordProblemWeaverUrl(url) {
-  // Define the expected base URL
   const baseUrl = "https://wordproblemweaver.com/assignment/";
-  // Check if the URL starts with the base URL
   if (!url.startsWith(baseUrl)) {
-    return false; // The URL doesn't match the expected base URL
+    return false;
   }
   return true;
 }
@@ -39,37 +37,19 @@ function validateWordProblemWeaverUrl(url) {
 export default {
   data() {
     return {
-      shortCode: '',
-      scannedQRCode: '', // Placeholder for scanned QR code data
-      assignment: '', // Placeholder for the assignment
+      shortCode: "",
+      scannedQRCode: "",
+      assignment: "",
     };
-  },
-  methods: {
-    startScanning() {
-      // Placeholder method to start QR scanning
-      console.log('QR code scanning started');
-      // After scanning, you would assign the scanned code to this.scannedQRCode
-      // Example: this.scannedQRCode = 'sample-assignment-code';
-    },
-    loadAssignment() {
-      if (this.shortCode) {
-        // Here you'd add logic to load the assignment based on the short code
-        // For now, we simply display the short code as the assignment.
-        this.assignment = `Assignment for code: ${this.shortCode}`;
-      }
-    }
   },
   setup() {
     const state = reactive({
-      data: null
-    })
+      data: null,
+    });
     function onDecode(data) {
-      state.data = data
-      console.log("Here!");
+      state.data = data;
       const valid = validateWordProblemWeaverUrl(data);
       if (valid) {
-        console.log("Valid!");
-        console.log(data)
         window.location = data; // Redirect the user to the URL
       } else {
         alert("Invalid QR code! Try again or ask your teacher for a new QR code.");
@@ -77,9 +57,9 @@ export default {
     }
     return {
       ...toRefs(state),
-      onDecode
-    }
-  }
+      onDecode,
+    };
+  },
 };
 </script>
 
